@@ -55,6 +55,7 @@ public:
     ~MainWindow();
 
     void handleDroppedFile(const QString &filename);
+    void changeEvent(QEvent*); // this event is called, when a new translator is loaded or the system language is changed
 
 private slots:
     void handleLoadFile();
@@ -111,12 +112,14 @@ private slots:
     void headerClicked (int logicalIndex);
     void DBCSettingsUpdated();
 
+
 public slots:
     void gotFrames(int);
     void updateSettings();
     void readUpdateableSettings();
     void gotCenterTimeID(int32_t ID, double timestamp);
     void updateConnectionSettings(QString connectionType, QString port, int speed0, int speed1);
+    void slotLanguageChanged(QAction* action); // this slot is called by the language menu actions
 
 signals:
     void sendCANFrame(const CANFrame *, int);
@@ -190,6 +193,10 @@ private:
     int normalRowHeight;
     bool isConnected;
     QPoint contextMenuPosition;
+    QTranslator m_translator; // contains the translations for this application
+    QTranslator m_translatorQt; // contains the translations for qt
+    QString m_currLang; // contains the currently loaded language
+    QString m_langPath; // Path of language files. This is always fixed to /languages.
 
     //private methods
     QString getSignalNameFromPosition(QPoint pos);
@@ -203,6 +210,8 @@ private:
     void readSettings();
     void writeSettings();
     bool eventFilter(QObject *obj, QEvent *event);
+    void loadLanguage(const QString &rlanguage); // loads a language by the given language shortcut (e.g. de, en)
+    void createLanguageMenu(void); // creates the language menu dynamically from the content of m_langPath
 };
 
 #endif // MAINWINDOW_H

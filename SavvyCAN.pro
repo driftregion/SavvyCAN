@@ -216,7 +216,9 @@ FORMS    += ui/candatagrid.ui \
     
 RESOURCES += \
     icons.qrc \
-    images.qrc
+    images.qrc \
+    languages.qrc
+    languages.qrc
 
 win32-msvc* {
    LIBS += opengl32.lib
@@ -249,5 +251,16 @@ helpfiles.files=help/*
 helpfiles.path = $$PREFIX/bin/help
 INSTALLS += helpfiles
 
+langfiles.files=languages
+langfiles.path = $$PREFIX/share/languages
+INSTALLS += langfiles
+
 INSTALLS += target
 
+TRANSLATIONS += \
+    languages/en_US.ts \
+    languages/zh_CN.ts \
+
+DISTFILES += \
+    languages/en_US.qm \
+    languages/zh_CN.qm
